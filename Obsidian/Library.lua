@@ -2288,8 +2288,6 @@ do
             end
 
             function ModeButton:Deselect()
-                KeyPicker.Mode = nil
-
                 Button.BackgroundTransparency = 1
                 Button.TextTransparency = 0.5
             end
@@ -2309,12 +2307,17 @@ do
             if Library.Unloaded then
                 return
             end
-
+        
+            local width = ToggleLabel.AbsoluteSize.X
+            if width <= 0 then
+                width = 200
+            end
+        
             local X, Y = Library:GetTextBounds(
                 PickerText or KeyPicker.DisplayValue,
                 Picker.FontFace,
                 Picker.TextSize,
-                ToggleLabel.AbsoluteSize.X
+                width
             )
             Picker.Text = PickerText or KeyPicker.DisplayValue
             Picker.Size = UDim2.fromOffset((X + 9), (Y + 4))
