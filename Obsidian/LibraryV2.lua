@@ -5922,7 +5922,7 @@ function Library:CreateWindow(WindowInfo)
     local ResizeButton
     local Tabs
     local Container
-    local BackgroundImage
+    local BackgroundImage = nil
 
     local InitialLeftWidth = math.ceil(WindowInfo.Size.X.Offset * 0.3)
     local IsCompact = WindowInfo.SidebarCompacted
@@ -5967,7 +5967,7 @@ function Library:CreateWindow(WindowInfo)
         Parent = MainFrame,
     })
     
-    if WindowInfo.BackgroundImage then
+    if WindowInfo.BackgroundImage and WindowInfo.BackgroundImage ~= "" then
         BackgroundImage = New("ImageLabel", {
             Image = WindowInfo.BackgroundImage,
             Position = UDim2.fromScale(0, 0),
@@ -6279,10 +6279,8 @@ function Library:CreateWindow(WindowInfo)
 
     function Window:SetBackgroundImage(Image)
         assert(typeof(Image) == "string", "Expected string for Image got: " .. typeof(Image))
-    
-        if BackgroundImage then
-            BackgroundImage.Image = Image
-        else
+        
+        if not BackgroundImage then
             BackgroundImage = New("ImageLabel", {
                 Image = Image,
                 Position = UDim2.fromScale(0, 0),
@@ -6298,6 +6296,8 @@ function Library:CreateWindow(WindowInfo)
                 CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
                 Parent = BackgroundImage,
             })
+        else
+            BackgroundImage.Image = Image
         end
         WindowInfo.BackgroundImage = Image
     end
