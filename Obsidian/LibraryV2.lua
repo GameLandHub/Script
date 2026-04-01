@@ -6265,7 +6265,6 @@ function Library:CreateWindow(WindowInfo)
             PaddingTop = UDim.new(0, 0),
             Parent = Container,
         })
-    end
 
     --// Window Table \\--
     local Window = {}
