@@ -5968,7 +5968,7 @@ function Library:CreateWindow(WindowInfo)
     })
     
     if WindowInfo.BackgroundImage then
-        New("ImageLabel", {
+        BackgroundImage = New("ImageLabel", {
             Image = WindowInfo.BackgroundImage,
             Position = UDim2.fromScale(0, 0),
             Size = UDim2.fromScale(1, 1),
