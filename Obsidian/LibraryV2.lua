@@ -6276,13 +6276,24 @@ function Library:CreateWindow(WindowInfo)
         WindowInfo.Title = title
     end
 
-    if WindowInfo.BackgroundImage then
-        function Window:SetBackgroundImage(Image)
-            assert(typeof(Image) == "string", "Expected string for Image got: " .. typeof(Image))
-    
+    function Window:SetBackgroundImage(Image)
+        assert(typeof(Image) == "string", "Expected string for Image got: " .. typeof(Image))
+        
+        if not BackgroundImage then
+            BackgroundImage = New("ImageLabel", {
+                Image = Image,
+                Position = UDim2.fromScale(0, 0),
+                Size = UDim2.fromScale(1, 1),
+                ScaleType = Enum.ScaleType.Stretch,
+                ZIndex = 999,
+                BackgroundTransparency = 1,
+                ImageTransparency = 0.75,
+                Parent = MainFrame,
+            })
+        else
             BackgroundImage.Image = Image
-            WindowInfo.BackgroundImage = Image
         end
+        WindowInfo.BackgroundImage = Image
     end
 
     local function ApplyCompact()
