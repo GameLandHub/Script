@@ -5928,63 +5928,61 @@ function Library:CreateWindow(WindowInfo)
     local IsCompact = WindowInfo.SidebarCompacted
     local LastExpandedWidth = InitialLeftWidth
 
-    do
-        Library.KeybindFrame, Library.KeybindContainer = Library:AddDraggableMenu("Keybinds")
-        Library.KeybindFrame.AnchorPoint = Vector2.new(0, 0.5)
-        Library.KeybindFrame.Position = UDim2.new(0, 6, 0.5, 0)
-        Library.KeybindFrame.Visible = false
-
-        MainFrame = New("TextButton", {
-            BackgroundColor3 = function()
-                return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
-            end,
-            Name = "Main",
-            Text = "",
-            Position = WindowInfo.Position,
-            Size = WindowInfo.Size,
-            Visible = false,
-            Parent = ScreenGui,
-        })
-        New("UICorner", {
-            CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
+    Library.KeybindFrame, Library.KeybindContainer = Library:AddDraggableMenu("Keybinds")
+    Library.KeybindFrame.AnchorPoint = Vector2.new(0, 0.5)
+    Library.KeybindFrame.Position = UDim2.new(0, 6, 0.5, 0)
+    Library.KeybindFrame.Visible = false
+    
+    MainFrame = New("TextButton", {
+        BackgroundColor3 = function()
+            return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
+        end,
+        Name = "Main",
+        Text = "",
+        Position = WindowInfo.Position,
+        Size = WindowInfo.Size,
+        Visible = false,
+        Parent = ScreenGui,
+    })
+    New("UICorner", {
+        CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
+        Parent = MainFrame,
+    })
+    table.insert(
+        Library.Scales,
+        New("UIScale", {
             Parent = MainFrame,
         })
-        table.insert(
-            Library.Scales,
-            New("UIScale", {
-                Parent = MainFrame,
-            })
-        )
-        Library:AddOutline(MainFrame)
-        Library:MakeLine(MainFrame, {
-            Position = UDim2.fromOffset(0, 48),
-            Size = UDim2.new(1, 0, 0, 1),
-        })
-
-        DividerLine = New("Frame", {
-            BackgroundColor3 = "OutlineColor",
-            Position = UDim2.fromOffset(InitialLeftWidth, 0),
-            Size = UDim2.new(0, 1, 1, -21),
+    )
+    Library:AddOutline(MainFrame)
+    Library:MakeLine(MainFrame, {
+        Position = UDim2.fromOffset(0, 48),
+        Size = UDim2.new(1, 0, 0, 1),
+    })
+    
+    DividerLine = New("Frame", {
+        BackgroundColor3 = "OutlineColor",
+        Position = UDim2.fromOffset(InitialLeftWidth, 0),
+        Size = UDim2.new(0, 1, 1, -21),
+        Parent = MainFrame,
+    })
+    
+    if WindowInfo.BackgroundImage then
+        New("ImageLabel", {
+            Image = WindowInfo.BackgroundImage,
+            Position = UDim2.fromScale(0, 0),
+            Size = UDim2.fromScale(1, 1),
+            ScaleType = Enum.ScaleType.Stretch,
+            ZIndex = 999,
+            BackgroundTransparency = 1,
+            ImageTransparency = 0.75,
             Parent = MainFrame,
-        })
-
-        if WindowInfo.BackgroundImage then
-            New("ImageLabel", {
-                Image = WindowInfo.BackgroundImage,
-                Position = UDim2.fromScale(0, 0),
-                Size = UDim2.fromScale(1, 1),
-                ScaleType = Enum.ScaleType.Stretch,
-                ZIndex = 999,
-                BackgroundTransparency = 1,
-                ImageTransparency = 0.75,
-                Parent = MainFrame,
-            })
-        end
-        New("UICorner", {
-            CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
-            Parent = BackgroundImage,
         })
     end
+    New("UICorner", {
+        CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
+        Parent = BackgroundImage,
+    })
 
         if WindowInfo.Center then
             MainFrame.Position = UDim2.new(0.5, -MainFrame.Size.X.Offset / 2, 0.5, -MainFrame.Size.Y.Offset / 2)
