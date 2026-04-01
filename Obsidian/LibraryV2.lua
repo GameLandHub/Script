@@ -5922,6 +5922,7 @@ function Library:CreateWindow(WindowInfo)
     local ResizeButton
     local Tabs
     local Container
+    local BackgroundImage
 
     local InitialLeftWidth = math.ceil(WindowInfo.Size.X.Offset * 0.3)
     local IsCompact = WindowInfo.SidebarCompacted
@@ -5979,6 +5980,11 @@ function Library:CreateWindow(WindowInfo)
                 Parent = MainFrame,
             })
         end
+        New("UICorner", {
+            CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
+            Parent = BackgroundImage,
+        })
+    end
 
         if WindowInfo.Center then
             MainFrame.Position = UDim2.new(0.5, -MainFrame.Size.X.Offset / 2, 0.5, -MainFrame.Size.Y.Offset / 2)
@@ -6271,6 +6277,15 @@ function Library:CreateWindow(WindowInfo)
 
         WindowTitle.Text = title
         WindowInfo.Title = title
+    end
+
+    if WindowInfo.BackgroundImage then
+        function Window:SetBackgroundImage(Image)
+            assert(typeof(Image) == "string", "Expected string for Image got: " .. typeof(Image))
+    
+            BackgroundImage.Image = Image
+            WindowInfo.BackgroundImage = Image
+        end
     end
 
     local function ApplyCompact()
