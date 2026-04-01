@@ -5978,11 +5978,12 @@ function Library:CreateWindow(WindowInfo)
             ImageTransparency = 0.75,
             Parent = MainFrame,
         })
+        
+        New("UICorner", {
+            CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
+            Parent = BackgroundImage,
+        })
     end
-    New("UICorner", {
-        CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
-        Parent = BackgroundImage,
-    })
 
         if WindowInfo.Center then
             MainFrame.Position = UDim2.new(0.5, -MainFrame.Size.X.Offset / 2, 0.5, -MainFrame.Size.Y.Offset / 2)
@@ -6278,8 +6279,10 @@ function Library:CreateWindow(WindowInfo)
 
     function Window:SetBackgroundImage(Image)
         assert(typeof(Image) == "string", "Expected string for Image got: " .. typeof(Image))
-        
-        if not BackgroundImage then
+    
+        if BackgroundImage then
+            BackgroundImage.Image = Image
+        else
             BackgroundImage = New("ImageLabel", {
                 Image = Image,
                 Position = UDim2.fromScale(0, 0),
@@ -6290,8 +6293,11 @@ function Library:CreateWindow(WindowInfo)
                 ImageTransparency = 0.75,
                 Parent = MainFrame,
             })
-        else
-            BackgroundImage.Image = Image
+            
+            New("UICorner", {
+                CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
+                Parent = BackgroundImage,
+            })
         end
         WindowInfo.BackgroundImage = Image
     end
