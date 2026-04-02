@@ -987,7 +987,7 @@ type IconModule = {
 
 local FetchIcons, Icons = pcall(function()
     return (loadstring(
-        game:HttpGet("https://raw.githubusercontent.com/deividcomsono/lucide-roblox-direct/refs/heads/main/source.lua")
+        game:HttpGet("https://raw.githubusercontent.com/BobGucci/lucide-roblox-direct/refs/heads/main/source.lua")
     ) :: () -> IconModule)()
 end)
 
@@ -5922,68 +5922,63 @@ function Library:CreateWindow(WindowInfo)
     local ResizeButton
     local Tabs
     local Container
-    local BackgroundImage = nil
 
     local InitialLeftWidth = math.ceil(WindowInfo.Size.X.Offset * 0.3)
     local IsCompact = WindowInfo.SidebarCompacted
     local LastExpandedWidth = InitialLeftWidth
 
-    Library.KeybindFrame, Library.KeybindContainer = Library:AddDraggableMenu("Keybinds")
-    Library.KeybindFrame.AnchorPoint = Vector2.new(0, 0.5)
-    Library.KeybindFrame.Position = UDim2.new(0, 6, 0.5, 0)
-    Library.KeybindFrame.Visible = false
-    
-    MainFrame = New("TextButton", {
-        BackgroundColor3 = function()
-            return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
-        end,
-        Name = "Main",
-        Text = "",
-        Position = WindowInfo.Position,
-        Size = WindowInfo.Size,
-        Visible = false,
-        Parent = ScreenGui,
-    })
-    New("UICorner", {
-        CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
-        Parent = MainFrame,
-    })
-    table.insert(
-        Library.Scales,
-        New("UIScale", {
-            Parent = MainFrame,
+    do
+        Library.KeybindFrame, Library.KeybindContainer = Library:AddDraggableMenu("Keybinds")
+        Library.KeybindFrame.AnchorPoint = Vector2.new(0, 0.5)
+        Library.KeybindFrame.Position = UDim2.new(0, 6, 0.5, 0)
+        Library.KeybindFrame.Visible = false
+
+        MainFrame = New("TextButton", {
+            BackgroundColor3 = function()
+                return Library:GetBetterColor(Library.Scheme.BackgroundColor, -1)
+            end,
+            Name = "Main",
+            Text = "",
+            Position = WindowInfo.Position,
+            Size = WindowInfo.Size,
+            Visible = false,
+            Parent = ScreenGui,
         })
-    )
-    Library:AddOutline(MainFrame)
-    Library:MakeLine(MainFrame, {
-        Position = UDim2.fromOffset(0, 48),
-        Size = UDim2.new(1, 0, 0, 1),
-    })
-    
-    DividerLine = New("Frame", {
-        BackgroundColor3 = "OutlineColor",
-        Position = UDim2.fromOffset(InitialLeftWidth, 0),
-        Size = UDim2.new(0, 1, 1, -21),
-        Parent = MainFrame,
-    })
-    
-    if WindowInfo.BackgroundImage and WindowInfo.BackgroundImage ~= "" then
-        BackgroundImage = New("ImageLabel", {
-            Image = WindowInfo.BackgroundImage,
-            Position = UDim2.fromScale(0, 0),
-            Size = UDim2.fromScale(1, 1),
-            ScaleType = Enum.ScaleType.Stretch,
-            ZIndex = 999,
-            BackgroundTransparency = 1,
-            ImageTransparency = 0.75,
-            Parent = MainFrame,
-        })
-        
         New("UICorner", {
             CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
-            Parent = BackgroundImage,
+            Parent = MainFrame,
         })
-    end
+        table.insert(
+            Library.Scales,
+            New("UIScale", {
+                Parent = MainFrame,
+            })
+        )
+        Library:AddOutline(MainFrame)
+        Library:MakeLine(MainFrame, {
+            Position = UDim2.fromOffset(0, 48),
+            Size = UDim2.new(1, 0, 0, 1),
+        })
+
+        DividerLine = New("Frame", {
+            BackgroundColor3 = "OutlineColor",
+            Position = UDim2.fromOffset(InitialLeftWidth, 0),
+            Size = UDim2.new(0, 1, 1, -21),
+            Parent = MainFrame,
+        })
+
+        if WindowInfo.BackgroundImage then
+            New("ImageLabel", {
+                Image = WindowInfo.BackgroundImage,
+                Position = UDim2.fromScale(0, 0),
+                Size = UDim2.fromScale(1, 1),
+                ScaleType = Enum.ScaleType.Stretch,
+                ZIndex = 999,
+                BackgroundTransparency = 1,
+                ImageTransparency = 0.75,
+                Parent = MainFrame,
+            })
+        end
 
         if WindowInfo.Center then
             MainFrame.Position = UDim2.new(0.5, -MainFrame.Size.X.Offset / 2, 0.5, -MainFrame.Size.Y.Offset / 2)
@@ -6266,6 +6261,7 @@ function Library:CreateWindow(WindowInfo)
             PaddingTop = UDim.new(0, 0),
             Parent = Container,
         })
+    end
 
     --// Window Table \\--
     local Window = {}
@@ -6275,31 +6271,6 @@ function Library:CreateWindow(WindowInfo)
 
         WindowTitle.Text = title
         WindowInfo.Title = title
-    end
-
-    function Window:SetBackgroundImage(Image)
-        assert(typeof(Image) == "string", "Expected string for Image got: " .. typeof(Image))
-        
-        if not BackgroundImage then
-            BackgroundImage = New("ImageLabel", {
-                Image = Image,
-                Position = UDim2.fromScale(0, 0),
-                Size = UDim2.fromScale(1, 1),
-                ScaleType = Enum.ScaleType.Stretch,
-                ZIndex = 999,
-                BackgroundTransparency = 1,
-                ImageTransparency = 0.75,
-                Parent = MainFrame,
-            })
-            
-            New("UICorner", {
-                CornerRadius = UDim.new(0, WindowInfo.CornerRadius),
-                Parent = BackgroundImage,
-            })
-        else
-            BackgroundImage.Image = Image
-        end
-        WindowInfo.BackgroundImage = Image
     end
 
     local function ApplyCompact()
